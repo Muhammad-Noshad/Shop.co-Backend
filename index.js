@@ -1,6 +1,9 @@
 const express = require('express');
-var cors = require('cors')
+const cors = require('cors')
+const cookieParser = require("cookie-parser");
 const connectDB = require("./connectDB");
+
+const verifyTokenRouter = require("./routers/verify-token");
 
 const signUpRouter = require("./routers/sign-up");
 const signInRouter = require("./routers/sign-in");
@@ -10,8 +13,17 @@ const PORT = 8000;
 
 connectDB("mongodb://127.0.0.1:27017/shop-co");
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000', // Replace with your frontend URL
+  credentials: true,               // Allow credentials (cookies)
+};
+
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
+
+app.use("/verify-token", verifyTokenRouter);
 
 app.use("/sign-up", signUpRouter);
 app.use("/sign-in", signInRouter);
