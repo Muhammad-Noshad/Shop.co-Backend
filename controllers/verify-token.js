@@ -6,14 +6,14 @@ async function verifyToken(req, res){
   const token = req.cookies?.accessToken;
 
   if (!token) {
-    return res.json({ success: false });
+    return res.json({ isAuthenticated: false });
   }
 
   let userEmail;
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
     if(error)
-      res.json({ success: false });
+      res.json({ isAuthenticated: false });
       userEmail = decoded.email;
   }); 
 
@@ -22,7 +22,7 @@ async function verifyToken(req, res){
   // if(!result)
   //   res.status(401).json({ status: "failure" });
 
-  return res.json({ success: true, user:{ email: userEmail } });
+  return res.json({ isAuthenticated: true });
 }
 
 module.exports = {
