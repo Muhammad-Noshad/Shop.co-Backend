@@ -6,12 +6,12 @@ require("dotenv").config();
 async function handleUserSignIn(req, res){
   const { email, password } = req.body;
 
-  const user = await User.findOne({
+  let user = await User.findOne({
     email
   });
 
   if(!user)
-    return res.json({status: "failure"});
+    return res.json({success: false, message: "No such Email found!"});
 
   const passwordMatch = await bcrypt.compare(password, user.password);
 
@@ -22,17 +22,17 @@ async function handleUserSignIn(req, res){
     }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '1d'
     });
-    
-    res.status(202).cookie("accessToken", accessToken, {
+
+    res.cookie("accessToken", accessToken, {
       sameSite: "strict",
       path: "/",
       httpOnly: true,
     });
 
-    return res.json({status: "success"});
+    return res.json({success: true});
   }
   else{
-    return res.json({status: "failure"});
+    return res.json({success: false, message: "Invalid password!"});
   }
 }
 

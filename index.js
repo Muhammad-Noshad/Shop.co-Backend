@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
-const connectDB = require("./connectDB");
+
+const { connectDB } = require("./connectDB");
 
 const verifyTokenRouter = require("./routers/verify-token");
 
@@ -9,7 +10,7 @@ const signUpRouter = require("./routers/sign-up");
 const signInRouter = require("./routers/sign-in");
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 connectDB("mongodb://127.0.0.1:27017/shop-co");
 

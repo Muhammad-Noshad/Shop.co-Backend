@@ -1,19 +1,53 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const { GridFSBucket, ObjectId } = require('mongodb');
+const { getDB } = require("../connectDB");
 
-async function handleUserSignUp(req, res){
-  const { email, password } = req.body;
+async function handleUserSignUp(req, res) {
+  const { firstName, lastName, phoneNo, dateOfBirth, email, password } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const isAlreadyPresent = await User.findOne({ email });
 
-  const result = await User.create({
-    email: email,
-    password: hashedPassword
-  });
+    if (isAlreadyPresent) {
+      return res.json({ success: false, message: "Email is already registered!" });
+    }
 
-  return (result? res.json({status: "success"}): res.json({status: "failure"}));
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const bucket = new GridFSBucket(getDB()); 
+
+    const file = req.file;
+
+    const uploadStream = bucket.openUploadStream(file.originalname);
+    uploadStream.end(file.buffer);
+
+    uploadStream.on('error', (error) => {
+      console.error('Error uploading to GridFS:', error);
+      res.status(500).json({ success: false, message: 'Error uploading profile picture' });
+    });
+
+    uploadStream.on('finish', async () => {
+      const profilePicId = uploadStream.id;
+
+      await User.create({
+        lastName,
+        firstName,
+        phoneNo,
+        dateOfBirth,
+        email,
+        password: hashedPassword,
+        profilePic: profilePicId 
+      });
+
+      res.json({ success: true, message: 'User signed up successfully' });
+    });
+  } catch (error) {
+    console.error('Error handling user signup:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
 }
 
 module.exports = {
   handleUserSignUp,
-}
+};
