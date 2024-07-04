@@ -29,7 +29,15 @@ async function handleUserSignIn(req, res){
       httpOnly: true,
     });
 
-    return res.json({success: true});
+    return res.json({success: true, user: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNo: user.phoneNo,
+      dateOfBirth: user.dateOfBirth,
+      email: user.email,
+      password: user.password,
+      profilePic: user.profilePic
+  }});
   }
   else{
     return res.json({success: false, message: "Invalid password!"});

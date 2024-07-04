@@ -17,12 +17,19 @@ async function verifyToken(req, res){
       userEmail = decoded.email;
   }); 
 
-  // const result = await User.findOne({ email: userEmail });
-8
-  // if(!result)
-  //   res.status(401).json({ status: "failure" });
+  const user = await User.findOne({
+    email: userEmail,
+  });
 
-  return res.json({ isAuthenticated: true });
+  return res.json({ isAuthenticated: true, user: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNo: user.phoneNo,
+      dateOfBirth: user.dateOfBirth,
+      email: user.email,
+      password: user.password,
+      profilePic: user.profilePic
+  }});
 }
 
 module.exports = {

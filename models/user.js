@@ -18,8 +18,7 @@ const userSchema = mongoose.Schema({
     required: true,
   },
   profilePic: { 
-    type: mongoose.Types.ObjectId, 
-    ref: 'fs.files',
+    type: String, 
     required: true,
   },
   email: {

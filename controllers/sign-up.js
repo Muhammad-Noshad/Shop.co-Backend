@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const { GridFSBucket, ObjectId } = require('mongodb');
-const { getDB } = require("../connectDB");
+const cloudinary = require("../utils/cloudinary");
 
 async function handleUserSignUp(req, res) {
   const { firstName, lastName, phoneNo, dateOfBirth, email, password } = req.body;
@@ -15,33 +14,28 @@ async function handleUserSignUp(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const bucket = new GridFSBucket(getDB()); 
+    let imageURL;
 
-    const file = req.file;
+    await cloudinary.uploader.upload(req.file.path, function(err, result){
+      if(err){
+        console.log(err);
+      }
 
-    const uploadStream = bucket.openUploadStream(file.originalname);
-    uploadStream.end(file.buffer);
+      imageURL = result.secure_url;
+    })
 
-    uploadStream.on('error', (error) => {
-      console.error('Error uploading to GridFS:', error);
-      res.status(500).json({ success: false, message: 'Error uploading profile picture' });
+    await User.create({
+      firstName,
+      lastName,
+      phoneNo,
+      dateOfBirth,
+      email,
+      password: hashedPassword,
+      profilePic: imageURL
     });
 
-    uploadStream.on('finish', async () => {
-      const profilePicId = uploadStream.id;
-
-      await User.create({
-        lastName,
-        firstName,
-        phoneNo,
-        dateOfBirth,
-        email,
-        password: hashedPassword,
-        profilePic: profilePicId 
-      });
-
-      res.json({ success: true, message: 'User signed up successfully' });
-    });
+    res.json({ success: true, message: 'User signed up successfully' });
+   
   } catch (error) {
     console.error('Error handling user signup:', error);
     res.status(500).json({ success: false, message: 'Server error' });
