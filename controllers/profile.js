@@ -20,7 +20,8 @@ async function editProfileInfo(req, res){
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
-      profilePic: user.profilePic
+      profilePic: user.profilePic,
+      isGoogleLogIn: user.isGoogleLogIn,
     }});
   }
   catch{
@@ -70,7 +71,7 @@ async function editAccountInfo(req, res){
       phoneNo: newUser.phoneNo,
       dateOfBirth: newUser.dateOfBirth,
       email: newUser.email,
-      profilePic: newUser.profilePic
+      profilePic: newUser.profilePic,isGoogleLogIn: user.isGoogleLogIn,
     } })
 }
 
@@ -94,7 +95,8 @@ async function editProfilePic(req, res){
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
-      profilePic: user.profilePic
+      profilePic: user.profilePic,
+      isGoogleLogIn: user.isGoogleLogIn,
     }});
 }
 

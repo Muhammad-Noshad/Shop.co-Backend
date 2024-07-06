@@ -23,6 +23,9 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
   },
+  isGoogleLogIn: {
+    type: Boolean,
+  }
 }, { timestamps: true });
 
 const User = mongoose.model("user", userSchema);

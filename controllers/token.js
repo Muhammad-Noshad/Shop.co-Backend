@@ -25,7 +25,8 @@ async function verifyToken(req, res){
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
-      profilePic: user.profilePic
+      profilePic: user.profilePic,
+      isGoogleLogIn: user.isGoogleLogIn,
   }});
 }
 

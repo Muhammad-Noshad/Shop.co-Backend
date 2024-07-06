@@ -35,13 +35,14 @@ async function handleUserSignIn(req, res){
     phoneNo: user.phoneNo,
     dateOfBirth: user.dateOfBirth,
     email: user.email,
-    profilePic: user.profilePic
+    profilePic: user.profilePic,
+    isGoogleLogIn: user.isGoogleLogIn,
   }});
 }
 
 async function handleGoogleSignIn(req, res){
   const { credential } = req.body;
-  
+
   const decoded = jwtDecode(credential);
 
   let user = await User.findOne({ email: decoded.email });
@@ -52,6 +53,7 @@ async function handleGoogleSignIn(req, res){
       lastName: decoded.family_name,
       email: decoded.email,
       profilePic: decoded.picture,
+      isGoogleLogIn: true,
     });
  
   const accessToken = generateToken(user);
@@ -63,11 +65,16 @@ async function handleGoogleSignIn(req, res){
     maxAge: 24*60*60*1000,
   });
 
+  console.log(user);
+
   return res.json({success: true, user: {
     firstName: user.firstName,
     lastName: user.lastName,
+    phoneNo: user.phoneNo,
+    dateOfBirth: user.dateOfBirth,
     email: user.email,
-    profilePic: user.profilePic
+    profilePic: user.profilePic,
+    isGoogleLogIn: user.isGoogleLogIn,
   }});
 }
 
@@ -100,7 +107,8 @@ async function handleUserSignUp(req, res) {
       dateOfBirth,
       email,
       password: hashedPassword,
-      profilePic: imageURL
+      profilePic: imageURL,
+      isGoogleLogIn: false,
     });
 
     res.json({ success: true, message: 'User signed up successfully' });
