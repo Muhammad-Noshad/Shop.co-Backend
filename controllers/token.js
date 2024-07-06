@@ -1,15 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const User = require("../models/user");
 
-function generateToken(user, duration = "1d"){
-  return jwt.sign({
-    _id: user._id,
-    "email": user.email
-  }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: duration
-  });
-}
+const User = require("../models/user");
 
 async function verifyToken(req, res){
   const token = req.cookies?.accessToken;
@@ -33,9 +25,17 @@ async function verifyToken(req, res){
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
-      password: user.password,
       profilePic: user.profilePic
   }});
+}
+
+function generateToken(user){
+  return jwt.sign({
+    _id: user._id,
+    "email": user.email
+  }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1d"
+  });
 }
 
 function decodeToken(token, key){

@@ -1,7 +1,7 @@
-const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const { generateToken, decodeToken } = require("./token");
 const cloudinary = require("../utils/cloudinary");
+const { generateToken } = require("./token");
+const User = require("../models/user");
 
 async function editProfileInfo(req, res){
   const { email, firstName, lastName, phoneNo, dateOfBirth } = req.body;
@@ -20,7 +20,6 @@ async function editProfileInfo(req, res){
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
-      password: user.password,
       profilePic: user.profilePic
     }});
   }
@@ -56,14 +55,13 @@ async function editAccountInfo(req, res){
     password: hashedPassword
   }, { returnDocument: 'after' });
 
-  const decoded = decodeToken(req.cookies.accessToken, process.env.ACCESS_TOKEN_SECRET);
-  const accessToken = generateToken(newUser, decoded.exp);
+  const accessToken = generateToken(newUser);
 
   res.cookie("accessToken", accessToken, {
     sameSite: "strict",
     path: "/",
     httpOnly: true,
-    maxAge: decoded.exp,
+    maxAge: 24*60*60*1000,
   });
 
   return res.json({ success: true, message: "Account information updated successfully!", user: {
@@ -72,7 +70,6 @@ async function editAccountInfo(req, res){
       phoneNo: newUser.phoneNo,
       dateOfBirth: newUser.dateOfBirth,
       email: newUser.email,
-      password: newUser.password,
       profilePic: newUser.profilePic
     } })
 }
@@ -84,7 +81,7 @@ async function editProfilePic(req, res){
 
   await cloudinary.uploader.upload(req.file.path, function(err, result){
     if(err)
-      return res.json({ success: false, message: "An error occured!" });
+      return res.json({ success: false, message: "An error occured while uploading image!" });
 
     imageURL = result.secure_url;
   })
@@ -97,7 +94,6 @@ async function editProfilePic(req, res){
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
-      password: user.password,
       profilePic: user.profilePic
     }});
 }

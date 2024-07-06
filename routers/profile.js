@@ -1,7 +1,7 @@
 const express = require('express');
 
-const { editProfileInfo, editAccountInfo, editProfilePic } = require("../controllers/profile")
 const upload = require("../middlewares/imageUploader");
+const { editProfileInfo, editAccountInfo, editProfilePic } = require("../controllers/profile")
 
 const router = express.Router();
 

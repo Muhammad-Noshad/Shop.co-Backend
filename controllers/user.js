@@ -1,9 +1,9 @@
-const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { generateToken } = require("./token");
 require("dotenv").config();
 const { jwtDecode } = require("jwt-decode");
+const cloudinary = require("../utils/cloudinary");
+const { generateToken } = require("./token");
+const User = require("../models/user");
 
 async function handleUserSignIn(req, res){
   const { email, password } = req.body;
@@ -35,7 +35,6 @@ async function handleUserSignIn(req, res){
     phoneNo: user.phoneNo,
     dateOfBirth: user.dateOfBirth,
     email: user.email,
-    password: user.password,
     profilePic: user.profilePic
   }});
 }
@@ -72,7 +71,47 @@ async function handleGoogleSignIn(req, res){
   }});
 }
 
+async function handleUserSignUp(req, res) {
+  const { firstName, lastName, phoneNo, dateOfBirth, email, password } = req.body;
+
+  try {
+    const isAlreadyPresent = await User.findOne({ email });
+
+    if (isAlreadyPresent) {
+      return res.json({ success: false, message: "Email is already registered!" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    let imageURL;
+
+    await cloudinary.uploader.upload(req.file.path, function(err, result){
+      if(err){
+        return res.json({ success: false, message: 'An error occured while uploading image' });
+      }
+
+      imageURL = result.secure_url;
+    })
+
+    await User.create({
+      firstName,
+      lastName,
+      phoneNo,
+      dateOfBirth,
+      email,
+      password: hashedPassword,
+      profilePic: imageURL
+    });
+
+    res.json({ success: true, message: 'User signed up successfully' });
+   
+  } catch (error) {
+    res.json({ success: false, message: 'Server error' });
+  }
+}
+
 module.exports = {
   handleUserSignIn,
   handleGoogleSignIn,
+  handleUserSignUp,
 }
