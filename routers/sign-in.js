@@ -1,9 +1,11 @@
 const express = require('express');
 
-const { handleUserSignIn } = require("../controllers/sign-in");
+const { handleUserSignIn, handleGoogleSignIn } = require("../controllers/sign-in");
 
 const router = express.Router();
 
-router.post("/", handleUserSignIn);
+router
+  .post("/", handleUserSignIn)
+  .post("/google", handleGoogleSignIn)
 
 module.exports = router;
