@@ -24,6 +24,7 @@ async function verifyToken(req, res){
       lastName: user.lastName,
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
+      gender: user.gender,
       email: user.email,
       profilePic: user.profilePic,
       isGoogleLogIn: user.isGoogleLogIn,

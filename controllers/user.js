@@ -34,6 +34,7 @@ async function handleUserSignIn(req, res){
     lastName: user.lastName,
     phoneNo: user.phoneNo,
     dateOfBirth: user.dateOfBirth,
+    gender: user.gender,
     email: user.email,
     profilePic: user.profilePic,
     isGoogleLogIn: user.isGoogleLogIn,
@@ -65,13 +66,12 @@ async function handleGoogleSignIn(req, res){
     maxAge: 24*60*60*1000,
   });
 
-  console.log(user);
-
   return res.json({success: true, user: {
     firstName: user.firstName,
     lastName: user.lastName,
     phoneNo: user.phoneNo,
     dateOfBirth: user.dateOfBirth,
+    gender: user.gender,
     email: user.email,
     profilePic: user.profilePic,
     isGoogleLogIn: user.isGoogleLogIn,
@@ -79,7 +79,7 @@ async function handleGoogleSignIn(req, res){
 }
 
 async function handleUserSignUp(req, res) {
-  const { firstName, lastName, phoneNo, dateOfBirth, email, password } = req.body;
+  const { firstName, lastName, phoneNo, dateOfBirth, gender, email, password } = req.body;
 
   try {
     const isAlreadyPresent = await User.findOne({ email });
@@ -105,6 +105,7 @@ async function handleUserSignUp(req, res) {
       lastName,
       phoneNo,
       dateOfBirth,
+      gender,
       email,
       password: hashedPassword,
       profilePic: imageURL,

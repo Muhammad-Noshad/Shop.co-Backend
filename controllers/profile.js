@@ -4,14 +4,15 @@ const { generateToken } = require("./token");
 const User = require("../models/user");
 
 async function editProfileInfo(req, res){
-  const { email, firstName, lastName, phoneNo, dateOfBirth } = req.body;
+  const { email, firstName, lastName, phoneNo, dateOfBirth, gender } = req.body;
 
   try{
       const user = await User.findOneAndUpdate({ email }, { 
       firstName,
       lastName,
       phoneNo,
-      dateOfBirth
+      dateOfBirth,
+      gender
     }, { returnDocument: 'after' });
     
     return res.json({ success: true, message: "Personal info updated successfully!", user: {
@@ -19,6 +20,7 @@ async function editProfileInfo(req, res){
       lastName: user.lastName,
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
+      gender: user.gender,
       email: user.email,
       profilePic: user.profilePic,
       isGoogleLogIn: user.isGoogleLogIn,
@@ -70,6 +72,7 @@ async function editAccountInfo(req, res){
       lastName: newUser.lastName,
       phoneNo: newUser.phoneNo,
       dateOfBirth: newUser.dateOfBirth,
+      gender: user.gender,
       email: newUser.email,
       profilePic: newUser.profilePic,isGoogleLogIn: user.isGoogleLogIn,
     } })
@@ -94,6 +97,7 @@ async function editProfilePic(req, res){
       lastName: user.lastName,
       phoneNo: user.phoneNo,
       dateOfBirth: user.dateOfBirth,
+      gender: user.gender,
       email: user.email,
       profilePic: user.profilePic,
       isGoogleLogIn: user.isGoogleLogIn,

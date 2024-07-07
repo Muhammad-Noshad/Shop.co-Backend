@@ -13,6 +13,9 @@ const userSchema = mongoose.Schema({
   dateOfBirth: {
     type: Date,
   },
+  gender: {
+    type: String,
+  },
   profilePic: { 
     type: String, 
   },
