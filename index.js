@@ -20,6 +20,7 @@ connectDB(process.env.DB_URL);
 const corsOptions = {
   origin: 'https://shop-co-store.netlify.app',
   credentials: true,
+  methods: ['POST', 'PATCH', 'DELETE', 'GET']
 };
 
 app.use(cors(corsOptions));
