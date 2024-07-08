@@ -28,8 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/token/verify", (req,res) => {
-  return res.json({ status: "success" });
+app.post("/user/sign-in", (req,res) => {
+  return res.json({ success: true });
 })
 app.use("/token", tokenRouter);
 app.use("/user", userRouter);
