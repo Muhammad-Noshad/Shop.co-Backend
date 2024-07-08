@@ -3,16 +3,10 @@
   "functions": {
     "index": {
       "runtime": "@vercel/node@2.0.0",
-      "maxDuration": 60,
-      "memory": 1024
+      "memory": 1024,
+      "maxDuration": 60
     }
   },
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
