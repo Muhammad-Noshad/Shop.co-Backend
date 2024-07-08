@@ -17,11 +17,11 @@ const PORT = process.env.PORT || 8000;
 
 connectDB(process.env.DB_URL);
 
-const corsOptions = {
-  origin: 'https://shop-co-store.netlify.app',
-  credentials: true,
-  methods: ['POST', 'PATCH', 'DELETE', 'GET']
-};
+// const corsOptions = {
+//   origin: 'https://shop-co-store.netlify.app',
+//   credentials: true,
+//   methods: ['POST', 'PATCH', 'DELETE', 'GET']
+// };
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
