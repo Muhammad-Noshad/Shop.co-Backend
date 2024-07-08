@@ -21,7 +21,7 @@ const corsOptions = {
   origin: 'https://shop-co-blond.vercel.app', 
   credentials: true,
 };
-
+// nothing
 app.use(cors(corsOptions));
 app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
