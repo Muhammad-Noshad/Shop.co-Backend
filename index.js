@@ -17,13 +17,13 @@ const PORT = process.env.PORT || 8000;
 
 connectDB(process.env.DB_URL);
 
-// const corsOptions = {
-//   origin: 'https://shop-co-blond.vercel.app',
-//   credentials: true,
-//   methods: ['POST', 'PATCH', 'DELETE', 'GET']
-// };
+const corsOptions = {
+  //origin: 'https://shop-co-blond.vercel.app',
+  credentials: true,
+  //methods: ['POST', 'PATCH', 'DELETE', 'GET']
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
