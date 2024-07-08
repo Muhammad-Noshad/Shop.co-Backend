@@ -23,8 +23,8 @@ connectDB(process.env.DB_URL);
 //   methods: ['POST', 'PATCH', 'DELETE', 'GET']
 // };
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors());
+// app.options('*', cors(corsOptions));
 app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
