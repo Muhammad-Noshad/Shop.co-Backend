@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 8000;
 connectDB(process.env.DB_URL);
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://shop-co-store.netlify.app',
   credentials: true,
 };
 
