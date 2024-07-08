@@ -20,7 +20,7 @@ connectDB(process.env.DB_URL);
  const corsOptions = {
    origin: '*',
    credentials: true,
-//   methods: ['POST', 'PATCH', 'DELETE', 'GET']
+   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
 };
 
 app.use(cors(corsOptions));
