@@ -2,7 +2,7 @@ const express = require('express');
 
 const { connectDB } = require("./connectDB");
 
-//const cors = require('cors')
+const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const rateLimit = require('express-rate-limit');
 
@@ -17,27 +17,13 @@ const PORT = process.env.PORT || 8000;
 
 connectDB(process.env.DB_URL);
 
-// const corsOptions = {
+ const corsOptions = {
 //   origin: 'https://shop-co-blond.vercel.app',
-//   credentials: true,
+   credentials: true,
 //   methods: ['POST', 'PATCH', 'DELETE', 'GET']
-// };
+};
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://shop-co-blond.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
-
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
