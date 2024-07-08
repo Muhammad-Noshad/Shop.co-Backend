@@ -2,7 +2,7 @@ const express = require('express');
 
 const { connectDB } = require("./connectDB");
 
-//const cors = require('cors')
+const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const rateLimit = require('express-rate-limit');
 
@@ -17,13 +17,13 @@ const PORT = process.env.PORT || 8000;
 
 connectDB(process.env.DB_URL);
 
-//  const corsOptions = {
-//    origin: '*',
-//    credentials: true,
-//    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
-// };
+ const corsOptions = {
+   origin: 'https://shop-co-blond.vercel.app',
+   credentials: true,
+   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+};
 
-//app.use(cors());
+app.use(cors(corsOptions));
 app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
