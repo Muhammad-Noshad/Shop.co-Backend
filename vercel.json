@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/**": {
+    "index": {
       "runtime": "@vercel/node@2.0.0",
       "maxDuration": 60,
       "memory": 1024
