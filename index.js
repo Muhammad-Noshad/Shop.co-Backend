@@ -1,6 +1,7 @@
 const express = require('express');
 
 const { connectDB } = require("./connectDB");
+const mongoose = require('mongoose');
 
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
@@ -15,7 +16,7 @@ const profileRouter = require("./routers/profile");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-connectDB(process.env.DB_URL);
+//connectDB(process.env.DB_URL);
 
 const corsOptions = {
   origin: 'https://shop-co-blond.vercel.app', 
@@ -35,4 +36,9 @@ app.use("/token", tokenRouter);
 app.use("/user", userRouter);
 app.use("/profile", profileRouter);
 
-app.listen(PORT, () => console.log("Server started at PORT:", PORT));
+  mongoose.connect(process.env.DB_URL)
+  .then(() => {
+    console.log("MongoDB connected successfully!")
+    app.listen(PORT, () => console.log("Server started at PORT:", PORT));
+  })
+  .catch((err) => console.log("MongoDB connection error!", err));
