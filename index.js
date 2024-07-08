@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req,res) => {
+app.get("/token/verify", (req,res) => {
   return res.json({ status: "success" });
 })
 app.use("/token", tokenRouter);
