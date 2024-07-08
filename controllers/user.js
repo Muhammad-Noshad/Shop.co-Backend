@@ -27,6 +27,7 @@ async function handleUserSignIn(req, res){
     path: "/",
     httpOnly: true,
     maxAge: 24*60*60*1000,
+    secure: true
   });
 
   return res.json({success: true, user: {
@@ -64,6 +65,7 @@ async function handleGoogleSignIn(req, res){
     path: "/",
     httpOnly: true,
     maxAge: 24*60*60*1000,
+    secure: true
   });
 
   return res.json({success: true, user: {
