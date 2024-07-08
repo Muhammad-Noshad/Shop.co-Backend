@@ -22,8 +22,8 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(limiter);
 app.use(cors(corsOptions));
+app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
