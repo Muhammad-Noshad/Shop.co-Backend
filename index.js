@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 8000;
 connectDB(process.env.DB_URL);
 
  const corsOptions = {
-//   origin: 'https://shop-co-blond.vercel.app',
+   origin: '*',
    credentials: true,
 //   methods: ['POST', 'PATCH', 'DELETE', 'GET']
 };
