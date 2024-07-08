@@ -36,9 +36,3 @@ app.use("/user", userRouter);
 app.use("/profile", profileRouter);
 
 app.listen(PORT, () => console.log("Server started at PORT:", PORT));
-
-exports.handler = async (req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!');
-};
