@@ -23,7 +23,7 @@ async function handleUserSignIn(req, res){
   const accessToken = generateToken(user);
 
   res.cookie("accessToken", accessToken, {
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/",
     httpOnly: true,
     maxAge: 24*60*60*1000,
@@ -61,7 +61,7 @@ async function handleGoogleSignIn(req, res){
   const accessToken = generateToken(user);
 
   res.cookie("accessToken", accessToken, {
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/",
     httpOnly: true,
     maxAge: 24*60*60*1000,
