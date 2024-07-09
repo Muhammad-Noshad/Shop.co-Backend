@@ -61,10 +61,11 @@ async function editAccountInfo(req, res){
   const accessToken = generateToken(newUser);
 
   res.cookie("accessToken", accessToken, {
-    sameSite: "strict",
+    sameSite: "None",
     path: "/",
     httpOnly: true,
     maxAge: 24*60*60*1000,
+    secure: true
   });
 
   return res.json({ success: true, message: "Account information updated successfully!", user: {
