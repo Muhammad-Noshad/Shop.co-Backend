@@ -30,7 +30,11 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
+          "value": "Content-Type, Authorization, Set-Cookie"
+        },
+        {
+          "key": "Access-Control-Expose-Headers",
+          "value": "Authorization, Set-Cookie"
         }
       ]
     }
