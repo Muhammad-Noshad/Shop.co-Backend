@@ -48,7 +48,12 @@ function decodeToken(token, key){
 async function deleteToken(req, res){
   try{
     console.log("Before deleting", req.cookies);
-    res.clearCookie("accessToken");
+    res.clearCookie('accessToken', {
+      sameSite: 'None',
+      path: '/',
+      httpOnly: true,
+      secure: true
+    });
     console.log("After deleting", req.cookies);
 
     return res.json({ success: true });
