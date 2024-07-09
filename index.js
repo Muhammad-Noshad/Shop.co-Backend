@@ -28,9 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/token/verify", (req,res) => {
-  return res.json({ status: "success" });
-})
 app.use("/token", tokenRouter);
 app.use("/user", userRouter);
 app.use("/profile", profileRouter);
