@@ -5,14 +5,13 @@ const User = require("../models/user");
 
 async function verifyToken(req, res){
   const token = req.cookies?.accessToken;
-  console.log("Cookies", req.cookies);
+
   if (!token) {
     return res.json({ isAuthenticated: false });
   }
-  console.log("Token", token);
 
   const { email } = decodeToken(token, process.env.ACCESS_TOKEN_SECRET);
-  console.log("Email", email);
+
   if(!email)
     res.json({ isAuthenticated: false });
 
@@ -47,14 +46,12 @@ function decodeToken(token, key){
 
 async function deleteToken(req, res){
   try{
-    console.log("Before deleting", req.cookies);
     res.clearCookie('accessToken', {
       sameSite: 'None',
       path: '/',
       httpOnly: true,
       secure: true
     });
-    console.log("After deleting", req.cookies);
 
     return res.json({ success: true });
   }
